@@ -1,0 +1,14 @@
+.DS_Store
+node_modules
+npm-debug.log
+seed-data/*.json
+config
+# serverless zip
+.serverless
+# webpack build files
+.webpack
+# eslint cache
+.eslintcache
+
+# vim
+*.swp
