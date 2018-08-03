@@ -59,6 +59,11 @@ type Animal {
     animal_name: String!
     description: String!
     image_url: String!
+    sex: String!
+    breed: String!
+    vaccinations: [String!]
+    status: String!
+    status_date: String!
 }
 
 type AnimalList {

@@ -1,6 +1,6 @@
 import * as db from './dynamo';
 
-const ANIMAL_TABLE = 'Animas';
+const ANIMAL_TABLE = 'Animals';
 
 const data = {
   getAnimalsByAnimalIds(animalIds) {

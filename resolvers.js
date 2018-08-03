@@ -4,18 +4,18 @@ const Site = require('./data/site');
 const User = require('./data/user');
 
 async function asyncGetAnimal(animal_id) {
-  var animal = await Animal.getAnimalData(animal_id);
-  return animal.Item;
+  const animal = await Animal.getAnimalData(animal_id);
+  return animal;
 }
 
 async function asyncGetSiteInfo(site_id) {
-  var site = await Site.getSiteData(site_id);
+  const site = await Site.getSiteData(site_id);
   return site;
 }
 
 async function asyncCreateSite(args) {
-  var site = await Site.createSite(args);
-  var user = await User.linkSite({
+  const site = await Site.createSite(args);
+  const user = await User.linkSite({
     handle: args.handle,
     site_id: site.site_id
   });
@@ -23,17 +23,17 @@ async function asyncCreateSite(args) {
 }
 
 async function asyncGetUserSite(handle, siteList, args) {
-  var sites = await Site.getSitesData(siteList);
+  const sites = await Site.getSitesData(siteList);
   return sites.Responses.Sites;
 }
 
 async function asyncGetSiteAnimals(site_id) {
-  var items = await AnimalSite.getAnimalSiteDataBySiteIDs(site_id);
+  const items = await AnimalSite.getAnimalSiteDataBySiteIDs(site_id);
   if (items.length === 0) {
     return [];
   }
-  var animalIds = items.map(s => s.animal_id);
-  var animalResponse = await Animal.getAnimalsByAnimalIds(animalIds);
+  const animalIds = items.map(s => s.animal_id);
+  const animalResponse = await Animal.getAnimalsByAnimalIds(animalIds);
   return animalResponse.Responses.Animals;
 }
 

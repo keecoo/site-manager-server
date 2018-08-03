@@ -35,6 +35,11 @@ for (let i = 0; i < numAnimals; i++) {
     animal_name: faker.internet.userName(),
     description: faker.lorem.sentence(10, 5),
     image_url: faker.image.cats(),
+    breed: faker.internet.userName(),
+    sex: 'M',
+    vaccinations: [],
+    status: "PRESENT",
+    status_date: faker.date.past(1)
   });
 }
 
