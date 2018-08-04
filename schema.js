@@ -32,6 +32,13 @@ type Query {
     getSiteInfo(site_id: String!): Site!
 }
 
+type GeoPosition {
+    latitude: Float!
+    longitude: Float!
+    latitudeDelta: Float!
+    longitudeDelta: Float!
+}
+
 input TokenInput {
     created_at: String!
     handle: String!
@@ -74,8 +81,7 @@ type AnimalList {
 type Site {
     site_id: String!
     description: String!
-    latitude: String!
-    longitude: String!
+    location: GeoPosition!
     site_name: String!
     image_url: String!
     address: String!

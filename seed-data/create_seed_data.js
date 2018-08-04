@@ -25,6 +25,12 @@ for (let i = 0; i < numSites; i++) {
     site_id: faker.random.uuid(),
     site_name: faker.address.streetAddress(false),
     description: faker.lorem.sentence(10, 5),
+    location: {
+      latitude: 41.0833976,
+      longitude: -112.0532486,
+      latitudeDelta: 0.005,
+      longitudeDelta: 0.005
+    },
     image_url: "https://www.w3schools.com/howto/img_forest.jpg" //faker.image.city(),
   });
 }
