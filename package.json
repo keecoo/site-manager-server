@@ -18,8 +18,8 @@
         "apollo-tracing": "^0.0.9",
         "aws-xray-sdk": "^2.1.0",
         "babel-polyfill": "^6.26.0",
-        "graphql": "^14.0.2",
-        "graphql-playground-middleware-lambda": "^1.7.8",
+        "graphql": "^14.1.1",
+        "graphql-playground-middleware-lambda": "^1.7.13",
         "graphql-server-lambda": "^1.4.0",
         "graphql-tools": "^4.0.4",
         "merge-graphql-schemas": "^1.5.8",
@@ -39,10 +39,13 @@
         "imports-loader": "^0.7.1",
         "jest": "^21.2.1",
         "jsonfile": "^4.0.0",
-        "serverless-dynamodb-local": "^0.2.26",
-        "serverless-offline": "^3.15.3",
-        "serverless-webpack": "^4.1.0",
-        "webpack": "^3.8.1",
-        "webpack-node-externals": "^1.6.0"
-    }
+        "serverless-dynamodb-local": "^0.2.30",
+        "serverless-offline": "^4.9.2",
+        "serverless-webpack": "^5.2.0",
+        "webpack": "^4.9.26",
+        "webpack-node-externals": "^1.7.2"
+    },
+    "resolutions": {
+        "serverless-dynamodb-local/dynamodb-localhost": "0.0.7"
+      }
 }
