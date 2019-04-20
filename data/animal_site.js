@@ -1,9 +1,11 @@
-import * as db from './dynamo';
+import DynamoData from './dynamo';
 
 const ANIMAL_SITE_TABLE = 'AnimalSites';
 
-const data = {
+
+export default class AnimalSite {
   getAnimalSiteDataBySiteIDs(site_id) {
+    const db = new DynamoData();
     const params = {
       TableName: ANIMAL_SITE_TABLE,
       KeyConditionExpression: 'site_id = :v1',
@@ -15,8 +17,4 @@ const data = {
     };
     return db.query(params);
   }
-};
-
-module.exports = {
-  getAnimalSiteDataBySiteIDs: (site_id) => data.getAnimalSiteDataBySiteIDs(site_id)
-};
+}

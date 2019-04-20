@@ -1,4 +1,5 @@
-const schema = `
+import { gql } from 'apollo-server-lambda';
+const schema = gql`
 type Mutation {
     createUser(
         name: String!

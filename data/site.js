@@ -1,10 +1,11 @@
-import * as db from './dynamo';
+import DynamoData from './dynamo';
 
 const uuidv1 = require('uuid/v1');
 const SITE_TABLE = 'Sites';
 
-const data = {
+export default class SiteData {
   getSitesData(siteIds) {
+    const db = new DynamoData();
     let keys = siteIds.map(s => {
       return {
         site_id: s
@@ -18,8 +19,9 @@ const data = {
       }
     };
     return db.getBatch(params);
-  },
+  }
   createSite(args) {
+    const db = new DynamoData();
     const params = {
       TableName: SITE_TABLE,
       Item: {
@@ -29,8 +31,9 @@ const data = {
       },
     };
     return db.createItem(params);
-  },
+  }
   getSiteData(siteId) {
+    const db = new DynamoData();
     var params = {
       Key: {
         "site_id": siteId,
@@ -40,9 +43,3 @@ const data = {
     return db.get(params);
   }
 }
-
-module.exports = {
-  createSite: (args) => data.createSite(args),
-  getSitesData: (siteIds) => data.getSitesData(siteIds),
-  getSiteData: (siteId) => data.getSiteData(siteId),
-};

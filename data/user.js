@@ -1,9 +1,11 @@
-import * as db from './dynamo';
+import DynamoData from './dynamo';
 
 const USER_TABLE = 'Users';
 
-const data = {
+// eslint-disable-next-line import/prefer-default-export
+export default class UserData {
   getUserInfo(args) {
+    const db = new DynamoData();
     var params = {
       Key: {
         "handle": args.handle,
@@ -12,8 +14,9 @@ const data = {
     };
     return db.get(params);
 
-  },
+  }
   createUser(args) {
+    const db = new DynamoData();
     const params = {
       TableName: USER_TABLE,
       Item: {
@@ -22,8 +25,9 @@ const data = {
       },
     };
     return db.createItem(params);
-  },
+  }
   updateUser(args) {
+    const db = new DynamoData();
     const params = {
       TableName: USER_TABLE,
       Key: {
@@ -39,8 +43,9 @@ const data = {
     };
 
     return db.updateItem(params, args);
-  },
+  }
   linkSite(args) {
+    const db = new DynamoData();
     const params = {
       TableName: USER_TABLE,
       Key: {
@@ -58,13 +63,4 @@ const data = {
     };
     return db.updateItem(params, args);
   }
-
-};
-
-// eslint-disable-next-line import/prefer-default-export
-module.exports = {
-  getUserInfo: (args) => data.getUserInfo(args),
-  createUser: (args) => data.createUser(args),
-  updateUser: (args) => data.updateUser(args),
-  linkSite: (args) => data.linkSite(args),
-};
+}

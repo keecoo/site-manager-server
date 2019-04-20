@@ -4,7 +4,7 @@ frameworkVersion: ">=1.21.0 <2.0.0"
 
 provider:
   name: aws
-  runtime: nodejs6.10
+  runtime: nodejs8.10
   stage: dev
   region: us-east-1
 
@@ -14,6 +14,10 @@ plugins:
   - serverless-offline
 
 custom:
+  webpack:
+    webpackConfig: 'webpack.config.js'   # Name of webpack configuration file
+    includeModules: false   # Node modules configuration for packaging
+    packager: 'npm'   # Packager that will be used to package your external modules
   serverless-offline:
     port: 4001
   webpackIncludeModules: true

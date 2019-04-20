@@ -14,13 +14,12 @@
         "deploy-prod": "yarn dynamodb-generate-seed-data && env-cmd ./config/security.env.prod serverless --stage=production deploy && yarn dynamodb-insert-seed-data-prod"
     },
     "dependencies": {
-        "apollo-server-lambda": "2.3.2",
-        "apollo-tracing": "^0.0.9",
+        "apollo-server-lambda": "2.4.8",
+        "apollo-tracing": "^0.5.2",
         "aws-xray-sdk": "^2.1.0",
         "babel-polyfill": "^6.26.0",
         "graphql": "^14.1.1",
         "graphql-playground-middleware-lambda": "^1.7.13",
-        "graphql-server-lambda": "^1.4.0",
         "graphql-tools": "^4.0.4",
         "merge-graphql-schemas": "^1.5.8",
         "node-uuid": "1.4.8",
@@ -28,16 +27,17 @@
         "uuid": "^3.3.2"
     },
     "devDependencies": {
+        "@babel/core": "^7.4.3",
+        "@babel/preset-env": "^7.4.3",
         "aws-sdk": "^2.192.0",
-        "babel-core": "^6.26.0",
-        "babel-loader": "^7.1.2",
-        "babel-preset-env": "^1.6.1",
+        "babel-loader": "^8.0.5",
+        "babel-core": "^7.0.0-bridge.0",
         "body-parser": "^1.15.2",
         "cors": "2.8.4",
         "env-cmd": "^5.0.0",
         "faker": "^4.1.0",
         "imports-loader": "^0.7.1",
-        "jest": "^21.2.1",
+        "jest": "^23.4.2",
         "jsonfile": "^4.0.0",
         "node.extend": ">=1.1.7",
         "serverless-dynamodb-local": "^0.2.30",
@@ -47,6 +47,7 @@
         "webpack-node-externals": "^1.7.2"
     },
     "resolutions": {
-        "serverless-dynamodb-local/dynamodb-localhost": "0.0.7"
-      }
+        "serverless-dynamodb-local/dynamodb-localhost": "0.0.7",
+        "babel-core": "^7.0.0-bridge.0"
+    }
 }

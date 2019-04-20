@@ -18,7 +18,7 @@ module.exports = {
           {
             loader: 'babel-loader',
             options: {
-              presets: [['env', { targets: { node: '6.10' } }]],
+              presets: [['@babel/preset-env', { targets: { node: '8.10' } }]],
             },
           },
         ],
