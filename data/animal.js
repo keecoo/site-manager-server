@@ -4,8 +4,11 @@ const ANIMAL_TABLE = 'Animals';
 
 
 export default class AnimalData {
+  constructor() {
+    this.db = new DynamoData();
+  }
+
   getAnimalsByAnimalIds(animalIds) {
-    const db = new DynamoData();
     const keys = animalIds.map(a => {
       return {
         animal_id: a
@@ -19,11 +22,10 @@ export default class AnimalData {
       }
     };
 
-    return db.getBatch(params);
+    return this.db.getBatch(params);
   }
 
   getAnimalData(animal_id) {
-    const db = new DynamoData();
     const params = {
       Key: {
         "animal_id": animal_id,
@@ -31,6 +33,6 @@ export default class AnimalData {
       TableName: ANIMAL_TABLE
     };
 
-    return db.get(params);
+    return this.db.get(params);
   }
 }
