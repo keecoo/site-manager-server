@@ -1,11 +1,14 @@
+"use strict";
 import DynamoData from './dynamo';
 
 const ANIMAL_SITE_TABLE = 'AnimalSites';
 
-
 export default class AnimalSite {
+  constructor() {
+    this.db = new DynamoData();
+  }
+
   getAnimalSiteDataBySiteIDs(site_id) {
-    const db = new DynamoData();
     const params = {
       TableName: ANIMAL_SITE_TABLE,
       KeyConditionExpression: 'site_id = :v1',
@@ -15,6 +18,6 @@ export default class AnimalSite {
       IndexName: 'site-index',
       ScanIndexForward: false,
     };
-    return db.query(params);
+    return this.db.query(params);
   }
 }

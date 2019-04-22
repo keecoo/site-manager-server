@@ -1,3 +1,4 @@
+"use strict";
 import DynamoData from './dynamo';
 
 const ANIMAL_TABLE = 'Animals';

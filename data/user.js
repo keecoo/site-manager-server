@@ -1,22 +1,25 @@
+"use strict";
 import DynamoData from './dynamo';
 
 const USER_TABLE = 'Users';
 
 // eslint-disable-next-line import/prefer-default-export
 export default class UserData {
+  constructor() {
+    this.db = new DynamoData();
+  }
+
   getUserInfo(args) {
-    const db = new DynamoData();
     var params = {
       Key: {
         "handle": args.handle,
       },
       TableName: "Users"
     };
-    return db.get(params);
-
+    return this.db.get(params);
   }
+
   createUser(args) {
-    const db = new DynamoData();
     const params = {
       TableName: USER_TABLE,
       Item: {
@@ -24,10 +27,10 @@ export default class UserData {
         name: args.name,
       },
     };
-    return db.createItem(params);
+    return this.db.createItem(params);
   }
+
   updateUser(args) {
-    const db = new DynamoData();
     const params = {
       TableName: USER_TABLE,
       Key: {
@@ -42,10 +45,10 @@ export default class UserData {
       ReturnValues: 'ALL_NEW',
     };
 
-    return db.updateItem(params, args);
+    return this.db.updateItem(params, args);
   }
+
   linkSite(args) {
-    const db = new DynamoData();
     const params = {
       TableName: USER_TABLE,
       Key: {
@@ -61,6 +64,7 @@ export default class UserData {
         ':empty_list': []
       }
     };
-    return db.updateItem(params, args);
+    return this.db.updateItem(params, args);
   }
+
 }

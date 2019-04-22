@@ -1,10 +1,9 @@
+"use strict";
 import AnimalData from "../data/animal";
 import DynamoData from "../data/dynamo";
 
 jest.mock('../data/dynamo');
-
 beforeEach(() => {
-    // Clear all instances and calls to constructor and all methods:
     DynamoData.mockClear();
 });
 
@@ -23,7 +22,7 @@ it('AnimalData animalIds should get batch', () => {
     const keys = animalIds.map(a => {
         return {
             animal_id: a
-        }
+        };
     }); 
     expect(DynamoData).toHaveBeenCalledTimes(1);
     expect(p.RequestItems.Animals.Keys).toEqual(keys);

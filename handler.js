@@ -1,3 +1,4 @@
+"use strict";
 import { ApolloServer } from 'apollo-server-lambda';
 import { schema } from './schema';
 import { resolvers } from './resolvers';
@@ -20,8 +21,8 @@ const server = new ApolloServer({
     context,
   }),
   playground: {
-    endpoint: process.env.REACT_APP_GRAPHQL_ENDPOINT
-      ? process.env.REACT_APP_GRAPHQL_ENDPOINT
+    endpoint: process.env.REACT_APP_GRAPHQL_ENDPOINT ? 
+      process.env.REACT_APP_GRAPHQL_ENDPOINT
       : '/production/graphql',
   },
   tracing: true,

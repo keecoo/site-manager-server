@@ -1,3 +1,4 @@
+"use strict";
 import { graphqlHandler, playgroundHandler } from './handler';
 
 it('graphqlHandler should be a function', () => {

@@ -1,11 +1,15 @@
+"use strict";
 import DynamoData from './dynamo';
 
 const uuidv1 = require('uuid/v1');
 const SITE_TABLE = 'Sites';
 
 export default class SiteData {
+  constructor() {
+    this.db = new DynamoData();
+  }
+
   getSitesData(siteIds) {
-    const db = new DynamoData();
     let keys = siteIds.map(s => {
       return {
         site_id: s
@@ -18,10 +22,10 @@ export default class SiteData {
         }
       }
     };
-    return db.getBatch(params);
+    return this.db.getBatch(params);
   }
+
   createSite(args) {
-    const db = new DynamoData();
     const params = {
       TableName: SITE_TABLE,
       Item: {
@@ -30,16 +34,16 @@ export default class SiteData {
         description: args.description,
       },
     };
-    return db.createItem(params);
+    return this.db.createItem(params);
   }
+
   getSiteData(siteId) {
-    const db = new DynamoData();
     var params = {
       Key: {
         "site_id": siteId,
       },
       TableName: SITE_TABLE
     };
-    return db.get(params);
+    return this.db.get(params);
   }
 }

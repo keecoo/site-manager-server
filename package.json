@@ -48,6 +48,7 @@
     },
     "resolutions": {
         "serverless-dynamodb-local/dynamodb-localhost": "0.0.7",
-        "babel-core": "^7.0.0-bridge.0"
+        "babel-core": "^7.0.0-bridge.0",
+        "node.extend": ">=1.1.7"
     }
 }
