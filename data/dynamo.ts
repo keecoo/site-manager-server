@@ -1,8 +1,12 @@
-"use strict";
 const dynamodb = require('serverless-dynamodb-client');
-const AWS = require('aws-sdk');
+import AWS = require('aws-sdk');
+//import * as AWS from 'aws-sdk'
+import DocumentClient = AWS.DynamoDB.DocumentClient;
+
 
 export default class DynamoData {
+    docClient: DocumentClient;
+
     constructor() {
         if (process.env.NODE_ENV === 'production') {
             this.docClient = new AWS.DynamoDB.DocumentClient();

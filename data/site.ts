@@ -1,10 +1,10 @@
-"use strict";
 import DynamoData from './dynamo';
 
 const uuidv4 = require('uuid/v4');
 const SITE_TABLE = 'Sites';
 
 export default class SiteData {
+  db: DynamoData;
   constructor() {
     this.db = new DynamoData();
   }
@@ -15,11 +15,6 @@ export default class SiteData {
     for (var siteid in siteIds) {
         keys.push({site_id : siteid});
     }
-    // let keys = siteIds.map(s => {
-    //   return {
-    //     site_id: s.site_id
-    //   }
-    // });
     const params = {
       RequestItems: {
         Sites: {

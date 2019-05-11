@@ -1,4 +1,3 @@
-"use strict";
 import AnimalData from './data/animal';
 import AnimalSiteData from './data/animal_site';
 import SiteData  from './data/site';
@@ -6,6 +5,10 @@ import UserData from './data/user';
 
 
 class HandlerService {
+  userData: UserData;
+  animalData: AnimalData;
+  siteData: SiteData;
+  animalSiteData: AnimalSiteData;
   constructor() {
     this.userData = new UserData();
     this.animalData = new AnimalData();
@@ -30,7 +33,7 @@ class HandlerService {
   }
   
   async asyncCreateSite(args) {
-    const site = await this.siteData.createSite(args);
+    const site : any = await this.siteData.createSite(args);
     await this.userData.linkSite({
       handle: args.handle,
       site_id: site.site_id
@@ -51,8 +54,8 @@ class HandlerService {
     return await this.userData.getUserInfo(args);
   }
   
-  async asyncGetUserSite(handle, siteList, args) {
-    const sites = await this.siteData.getSitesData(siteList);
+  async asyncGetUserSite(handle, siteList) {
+    const sites : any = await this.siteData.getSitesData(siteList);
     return sites.Responses.Sites;
   }
   
@@ -70,7 +73,7 @@ class HandlerService {
       return [];
     }
     const animalIds = items.map(s => s.animal_id);
-    const animalResponse = await this.animalData.getAnimalsByAnimalIds(animalIds);
+    const animalResponse : any = await this.animalData.getAnimalsByAnimalIds(animalIds);
     return animalResponse.Responses.Animals;
   }
   
@@ -92,7 +95,7 @@ const data = {
     });
   },
   getSiteAnimals(site_id, args) {
-    return handlerService.asyncGetSiteAnimals(site_id, args).then(result => {
+    return handlerService.asyncGetSiteAnimals(site_id).then(result => {
       return {
         items: result
       };
@@ -189,7 +192,7 @@ export const resolvers = {
     removeSiteLink: (_, args) => data.removeSiteLink(args),
   },
   User: {
-    siteInfo: (obj, args) => data.getPaginatedUserSites(obj.handle, obj.site, args),
+    siteInfo: (obj, args) => data.getPaginatedUserSites(obj.handle, obj.site),
   },
   Site: {
     animals: (obj, args) => data.getSiteAnimals(obj.site_id, args),

@@ -4,11 +4,12 @@ import DynamoData from './dynamo';
 const ANIMAL_SITE_TABLE = 'AnimalSites';
 
 export default class AnimalSite {
+  db: any;
   constructor() {
     this.db = new DynamoData();
   }
 
-  getAnimalSiteDataBySiteIDs(site_id) {
+  getAnimalSiteDataBySiteIDs(site_id : string) {
     const params = {
       TableName: ANIMAL_SITE_TABLE,
       KeyConditionExpression: 'site_id = :v1',

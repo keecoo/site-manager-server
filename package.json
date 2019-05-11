@@ -44,6 +44,8 @@
         "serverless-offline": "^4.9.2",
         "serverless-webpack": "^5.2.0",
         "tar": ">=4.4.2",
+        "ts-loader": "^4.3.1",
+        "typescript": "^2.5.3",
         "webpack": "^4.9.26",
         "webpack-node-externals": "^1.7.2"
     },

@@ -5,10 +5,19 @@ const nodeExternals = require('webpack-node-externals');
 const slsw = require('serverless-webpack');
 
 module.exports = {
-  entry: slsw.lib.entries,
+  //entry: slsw.lib.entries,
+  entry: './handler.ts',
   target: 'node',
   externals: [nodeExternals()],
   mode: slsw.lib.webpack.isLocal ? "development" : "production",
+  resolve: {
+    extensions: [
+      '.js',
+      '.json',
+      '.ts',
+      '.tsx'
+    ]
+  },
   module: {
     rules: [
       {
@@ -23,11 +32,19 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.ts(x?)$/,
+        use: [
+          {
+            loader: 'ts-loader'
+          }
+        ],
+      }
     ],
   },
   output: {
     libraryTarget: 'commonjs',
     path: path.join(__dirname, '.webpack'),
-    filename: '[name].js',
+    filename: 'handler.js',
   },
 };

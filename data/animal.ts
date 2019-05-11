@@ -1,4 +1,3 @@
-"use strict";
 import DynamoData from './dynamo';
 
 const uuidv4 = require('uuid/v4');
@@ -6,6 +5,7 @@ const ANIMAL_TABLE = 'Animals';
 
 
 export default class AnimalData {
+  db: DynamoData;
   constructor() {
     this.db = new DynamoData();
   }
@@ -27,7 +27,7 @@ export default class AnimalData {
     return this.db.getBatch(params);
   }
 
-  getAnimalData(animal_id) {
+  getAnimalData(animal_id : string) {
     const params = {
       Key: {
         "animal_id": animal_id,
