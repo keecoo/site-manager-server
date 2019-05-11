@@ -47,7 +47,7 @@ export default class UserData {
 
     return this.db.updateItem(params, args);
   }
-
+  
   linkSite(args) {
     const params = {
       TableName: USER_TABLE,
@@ -55,14 +55,31 @@ export default class UserData {
         handle: args.handle
       },
       ReturnValues: 'ALL_NEW',
-      UpdateExpression: 'set #site = list_append(if_not_exists(#site, :empty_list), :site)',
+      UpdateExpression: 'set #site.#siteid = :site',
       ExpressionAttributeNames: {
-        '#site': 'site'
+        '#site': 'site',
+        '#siteid' : args.site_id
       },
       ExpressionAttributeValues: {
-        ':site': [args.site_id],
-        ':empty_list': []
-      }
+        ':site': {"site_id" : args.site_id}
+      },
+      ConditionExpression : "attribute_not_exists(#site.#siteid)"
+    };
+    return this.db.updateItem(params, args);
+  }
+
+  removeSite(args) {
+    const params = {
+      TableName: USER_TABLE,
+      Key: {
+        handle: args.handle
+      },
+      ReturnValues: 'ALL_NEW',
+      UpdateExpression: 'remove #site.#siteid',
+      ExpressionAttributeNames: {
+        '#site': 'site',
+        '#siteid' : args.site_id
+      },
     };
     return this.db.updateItem(params, args);
   }

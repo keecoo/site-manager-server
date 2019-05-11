@@ -16,6 +16,14 @@ class HandlerService {
   async asyncGetAnimal(animal_id) {
     return await this.animalData.getAnimalData(animal_id);    
   }
+
+  async asyncCreateAnimal(args) {
+    return await this.animalData.createAnimal(args);
+  }
+  
+  async asyncUpdateAnimal(args) {
+    return await this.animalData.updateAnimal(args);
+  }
   
   async asyncGetSiteInfo(site_id) {
     return await this.siteData.getSiteData(site_id);
@@ -28,6 +36,19 @@ class HandlerService {
       site_id: site.site_id
     });
     return site;
+  }
+  
+  async asyncUpdateSite(args) {
+    const site = await this.siteData.updateSite(args);
+    return site;
+  }
+  
+  async asyncRemoveSiteLink(args) {
+    await this.userData.removeSite({
+      handle: args.handle,
+      site_id: args.site_id
+    });
+    return await this.userData.getUserInfo(args);
   }
   
   async asyncGetUserSite(handle, siteList, args) {
@@ -121,6 +142,34 @@ const data = {
       console.log(err);
     });
   },
+  updateSite(args) {
+    return handlerService.asyncUpdateSite(args).then(result => {
+      return result;
+    }).catch(err => {
+      console.log(err);
+    });
+  },
+  createAnimal(args) {
+    return handlerService.asyncCreateAnimal(args).then(result => {
+      return result;
+    }).catch(err => {
+      console.log(err);
+    });
+  },
+  updateAnimal(args) {
+    return handlerService.asyncUpdateAnimal(args).then(result => {
+      return result;
+    }).catch(err => {
+      console.log(err);
+    });
+  },
+  removeSiteLink(args) {
+    return handlerService.asyncRemoveSiteLink(args).then(result => {
+      return result;
+    }).catch(err => {
+      console.log(err);
+    });
+  },
 };
 
 // eslint-disable-next-line import/prefer-default-export
@@ -133,8 +182,11 @@ export const resolvers = {
   Mutation: {
     createUser: (_, args) => data.createUser(args),
     updateUser: (_, args) => data.updateUser(args),
-    createSite: (_, args) => data.createSite(args),
+    createAnimal: (_, args) => data.createAnimal(args),
+    updateAnimal: (_, args) => data.updateAnimal(args),
     createSiteAndLink: (_, args) => data.createSiteAndLink(args),
+    updateSite: (_, args) => data.updateSite(args),
+    removeSiteLink: (_, args) => data.removeSiteLink(args),
   },
   User: {
     siteInfo: (obj, args) => data.getPaginatedUserSites(obj.handle, obj.site, args),

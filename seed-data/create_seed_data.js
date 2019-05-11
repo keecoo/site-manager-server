@@ -71,9 +71,11 @@ for (let i = 0; i < handleNames.length; i++) {
     name: name,
     location: location,
     description: description,
-    site: [siteData[0].site_id, siteData[1].site_id],
+    site: {}
   };
-
+  userInfo.site = {};
+  userInfo.site[siteData[0].site_id] = { site_id : siteData[0].site_id}
+  userInfo.site[siteData[1].site_id] = { site_id : siteData[1].site_id}
   udata.push(userInfo);
 }
 

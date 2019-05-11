@@ -2,6 +2,29 @@
 import { gql } from 'apollo-server-lambda';
 const schema = gql`
 type Mutation {
+    createAnimal(
+        animal_name: String!
+        description: String
+        image_url: String
+        sex: String
+        breed: String
+        vaccinations: [String!]
+        status: String
+        status_date: String
+      ): Animal
+
+    updateAnimal(
+        animal_id: String!
+        animal_name: String!
+        description: String
+        image_url: String
+        sex: String
+        breed: String
+        vaccinations: [String!]
+        status: String
+        status_date: String
+      ): Animal
+
     createUser(
         name: String!
         handle: String!
@@ -14,16 +37,23 @@ type Mutation {
         phone: String
       ): User
 
-    createSite(
-        site_name: String!
-        description: String!
-    ): Site
-
     createSiteAndLink(
         site_name: String!
         description: String!
         handle: String!
     ): Site
+
+    updateSite(
+        site_id: String!
+        site_name: String!
+        description: String!
+        image_url: String!
+    ): Site
+
+    removeSiteLink(
+        site_id: String!
+        handle: String!
+    ) : User!
 }
 
 type Query {
@@ -58,7 +88,7 @@ type User {
     last_name: String
     phone: String
     handle: String!
-    site: [String!]
+    site: [SmallSite!]
 
     siteInfo(limit: Int, nextToken: TokenInput): SiteList
 }
@@ -78,6 +108,10 @@ type Animal {
 type AnimalList {
     items: [Animal!]!
     nextToken: Token
+}
+
+type SmallSite {
+    site_id: String!
 }
 
 type Site {
