@@ -43,6 +43,7 @@
         "serverless-dynamodb-local": "^0.2.30",
         "serverless-offline": "^4.9.2",
         "serverless-webpack": "^5.2.0",
+        "tar": ">=4.4.2",
         "webpack": "^4.9.26",
         "webpack-node-externals": "^1.7.2"
     },
