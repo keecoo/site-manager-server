@@ -1,8 +1,30 @@
 import DynamoData from './dynamo';
+import { DocumentClient } from 'aws-sdk/clients/dynamodb';
+
 
 const uuidv4 = require('uuid/v4');
 const ANIMAL_TABLE = 'Animals';
 
+interface createAnimalArgs {
+  animal_name: string;
+  description: string;
+  image_url: string;
+  sex: string;
+  breed : string;
+  status: string;
+  status_date: string;
+}
+
+interface updateAnimalArgs {
+  animal_id: string;
+  animal_name: string;
+  description: string;
+  image_url: string;
+  sex: string;
+  breed : string;
+  status: string;
+  status_date: string;
+}
 
 export default class AnimalData {
   db: DynamoData;
@@ -10,13 +32,13 @@ export default class AnimalData {
     this.db = new DynamoData();
   }
 
-  getAnimalsByAnimalIds(animalIds) {
+  getAnimalsByAnimalIds(animalIds : string[]) {
     const keys = animalIds.map(a => {
       return {
         animal_id: a
       }
     });
-    const params = {
+    const params : DocumentClient.BatchGetItemInput = {
       RequestItems: {
         Animals: {
           Keys: keys
@@ -28,7 +50,7 @@ export default class AnimalData {
   }
 
   getAnimalData(animal_id : string) {
-    const params = {
+    const params : DocumentClient.GetItemInput = {
       Key: {
         "animal_id": animal_id,
       },
@@ -38,8 +60,8 @@ export default class AnimalData {
     return this.db.get(params);
   }
 
-  createAnimal(args) {
-    const params = {
+  createAnimal(args : createAnimalArgs) {
+    const params : DocumentClient.PutItemInput = {
       TableName: ANIMAL_TABLE,
       Item: {
         animal_id: uuidv4(),
@@ -56,8 +78,8 @@ export default class AnimalData {
     return this.db.createItem(params);
   }
 
-  updateAnimal(args) {
-    const params = {
+  updateAnimal(args : updateAnimalArgs) {
+    const params : DocumentClient.UpdateItemInput = {
       TableName: ANIMAL_TABLE,
       Key: {
         animal_id: args.animal_id,

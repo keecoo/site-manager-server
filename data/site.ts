@@ -1,7 +1,20 @@
 import DynamoData from './dynamo';
+import { DocumentClient } from 'aws-sdk/clients/dynamodb';
+
 
 const uuidv4 = require('uuid/v4');
 const SITE_TABLE = 'Sites';
+
+interface createSiteArgs {
+  site_name : string;
+  description : string;
+}
+
+interface updateSiteArgs {
+  site_id : string;
+  site_name : string;
+  description : string;
+}
 
 export default class SiteData {
   db: DynamoData;
@@ -15,7 +28,7 @@ export default class SiteData {
     for (var siteid in siteIds) {
         keys.push({site_id : siteid});
     }
-    const params = {
+    const params : DocumentClient.BatchGetItemInput = {
       RequestItems: {
         Sites: {
           Keys: keys
@@ -25,8 +38,8 @@ export default class SiteData {
     return this.db.getBatch(params);
   }
 
-  createSite(args) {
-    const params = {
+  createSite(args : createSiteArgs) {
+    const params : DocumentClient.PutItemInput = {
       TableName: SITE_TABLE,
       Item: {
         site_id: uuidv4(),
@@ -44,8 +57,8 @@ export default class SiteData {
     return this.db.createItem(params);
   }
 
-  updateSite(args) {
-    const params = {
+  updateSite(args : updateSiteArgs) {
+    const params : DocumentClient.UpdateItemInput = {
       TableName: SITE_TABLE,
       Key: {
         site_id: args.site_id,
@@ -61,8 +74,8 @@ export default class SiteData {
     return this.db.updateItem(params, args);
   }
 
-  getSiteData(siteId) {
-    var params = {
+  getSiteData(siteId : string) {
+    const params : DocumentClient.GetItemInput = {
       Key: {
         "site_id": siteId,
       },

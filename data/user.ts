@@ -1,8 +1,9 @@
 import DynamoData from './dynamo';
+import { DocumentClient, UpdateItemInput } from 'aws-sdk/clients/dynamodb';
 
 const USER_TABLE = 'Users';
 
-
+//#region arg type interfaces
 interface getUserInfoArgs {
   handle : string;
 }
@@ -25,6 +26,12 @@ interface linkSiteArgs {
   site_id : string;
 }
 
+interface removeSiteArgs {
+  handle: string;
+  site_id : string;
+}
+//#endregion
+
 export default class UserData {
   db: DynamoData;
   constructor() {
@@ -32,17 +39,17 @@ export default class UserData {
   }
 
   getUserInfo(args : getUserInfoArgs) {
-    var params = {
+    const params : DocumentClient.GetItemInput = {
       Key: {
         "handle": args.handle,
       },
-      TableName: "Users"
+      TableName: USER_TABLE
     };
     return this.db.get(params);
   }
 
   createUser(args : createUserArgs) {
-    const params = {
+    const params : DocumentClient.PutItemInput = {
       TableName: USER_TABLE,
       Item: {
         handle: args.handle,
@@ -53,7 +60,7 @@ export default class UserData {
   }
 
   updateUser(args : updateUserArgs) {
-    const params = {
+    const params : DocumentClient.UpdateItemInput = {
       TableName: USER_TABLE,
       Key: {
         handle: args.handle,
@@ -71,7 +78,7 @@ export default class UserData {
   }
   
   linkSite(args : linkSiteArgs) {
-    const params = {
+    const params : DocumentClient.UpdateItemInput = {
       TableName: USER_TABLE,
       Key: {
         handle: args.handle
@@ -90,8 +97,8 @@ export default class UserData {
     return this.db.updateItem(params, args);
   }
 
-  removeSite(args) {
-    const params = {
+  removeSite(args : removeSiteArgs) {
+    const params : DocumentClient.UpdateItemInput = {
       TableName: USER_TABLE,
       Key: {
         handle: args.handle
