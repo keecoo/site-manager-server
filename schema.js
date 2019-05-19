@@ -17,12 +17,11 @@ type Mutation {
         animal_id: String!
         animal_name: String!
         description: String
-        image_url: String
-        sex: String
-        breed: String
+        image_url: String!
+        sex: String!
+        breed: String!
         vaccinations: [String!]
-        status: String
-        status_date: String
+        status: String!
       ): Animal
 
     createUser(
@@ -96,13 +95,13 @@ type User {
 type Animal {
     animal_id: String!
     animal_name: String!
-    description: String!
-    image_url: String!
-    sex: String!
-    breed: String!
+    description: String
+    image_url: String
+    sex: String
+    breed: String
     vaccinations: [String!]
-    status: String!
-    status_date: String!
+    status: String
+    status_date: String
 }
 
 type AnimalList {

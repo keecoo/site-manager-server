@@ -5,7 +5,10 @@ import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 const uuidv4 = require('uuid/v4');
 const ANIMAL_TABLE = 'Animals';
 
-interface createAnimalArgs {
+//#region arg type interfaces
+
+
+export interface CreateAnimalArgs {
   animal_name: string;
   description: string;
   image_url: string;
@@ -15,7 +18,7 @@ interface createAnimalArgs {
   status_date: string;
 }
 
-interface updateAnimalArgs {
+export interface UpdateAnimalArgs {
   animal_id: string;
   animal_name: string;
   description: string;
@@ -26,13 +29,26 @@ interface updateAnimalArgs {
   status_date: string;
 }
 
+export interface AnimalResponse {
+  animal_id: string;
+  animal_name: string;
+  description: string;
+  image_url: string;
+  sex: string;
+  breed : string;
+  status: string;
+  status_date: string;
+}
+
+//#endregion
+
 export default class AnimalData {
   db: DynamoData;
   constructor() {
     this.db = new DynamoData();
   }
 
-  getAnimalsByAnimalIds(animalIds : string[]) {
+  async getAnimalsByAnimalIds(animalIds : string[]) : Promise<Array<AnimalResponse>> {
     const keys = animalIds.map(a => {
       return {
         animal_id: a
@@ -45,26 +61,29 @@ export default class AnimalData {
         }
       }
     };
-
-    return this.db.getBatch(params);
+    var response = await this.db.getBatch(params);
+    return response.Responses.Animals as Array<AnimalResponse>;
   }
 
-  getAnimalData(animal_id : string) {
+  async getAnimalData(animal_id : string) : Promise<AnimalResponse> {
     const params : DocumentClient.GetItemInput = {
       Key: {
         "animal_id": animal_id,
       },
       TableName: ANIMAL_TABLE
     };
-
-    return this.db.get(params);
+    console.log('get animal')
+    var response = await this.db.get(params);
+    console.log(response);
+    return response.Item as AnimalResponse;
   }
 
-  createAnimal(args : createAnimalArgs) {
+  async createAnimal(args : CreateAnimalArgs) : Promise<AnimalResponse> {
+    var animalId = uuidv4();
     const params : DocumentClient.PutItemInput = {
       TableName: ANIMAL_TABLE,
       Item: {
-        animal_id: uuidv4(),
+        animal_id: animalId,
         animal_name: args.animal_name,
         description: args.description,
         image_url: args.image_url,
@@ -72,13 +91,20 @@ export default class AnimalData {
         breed : args.breed,
         status: args.status,
         status_date: args.status_date
-
       },
+      ReturnValues : 'NONE'
     };
-    return this.db.createItem(params);
+    try
+    {
+      var result = await this.db.createItem(params);
+      return await this.getAnimalData(animalId);
+    }
+    catch (e) {
+      console.log(e);
+    }
   }
 
-  updateAnimal(args : updateAnimalArgs) {
+  async updateAnimal(args : UpdateAnimalArgs) : Promise<AnimalResponse> {
     const params : DocumentClient.UpdateItemInput = {
       TableName: ANIMAL_TABLE,
       Key: {
@@ -91,13 +117,17 @@ export default class AnimalData {
         ':sex' : args.sex,
         ':breed' : args.breed,
         ':status' : args.status,
-        ':status_date' : args.status_date  
+        ':status_date' : Date.now()
       },
-      UpdateExpression: 'SET animal_name = :animal_name, description = :description, image_url = :image_url, sex = :sex, breed = :breed, status = :status, status_date = :status_date',
+      ExpressionAttributeNames: {
+        '#status': 'status'
+      },
+      UpdateExpression: 'SET animal_name = :animal_name, description = :description, image_url = :image_url, sex = :sex, breed = :breed, #status = :status, status_date = :status_date',
       ReturnValues: 'ALL_NEW',
     };
 
-    return this.db.updateItem(params, args);
+    await this.db.updateItem(params, args);
+    return await this.getAnimalData(args.animal_id);
   }
 
 

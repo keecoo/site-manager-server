@@ -4,16 +4,16 @@ import { DocumentClient, UpdateItemInput } from 'aws-sdk/clients/dynamodb';
 const USER_TABLE = 'Users';
 
 //#region arg type interfaces
-interface getUserInfoArgs {
+export interface GetUserInfoArgs {
   handle : string;
 }
 
-interface createUserArgs {
+export interface CreateUserArgs {
   handle : string;
   name : string;
 }
 
-interface updateUserArgs {
+export interface UpdateUserArgs {
   handle : string;
   name : string;
   first_name : string;
@@ -21,14 +21,23 @@ interface updateUserArgs {
   phone : string;
 }
 
-interface linkSiteArgs {
+export interface LinkSiteArgs {
   handle: string;
   site_id : string;
 }
 
-interface removeSiteArgs {
+export interface RemoveSiteArgs {
   handle: string;
   site_id : string;
+}
+
+export interface UserResponse {
+  handle : string;
+  name : string;
+  first_name : string;
+  last_name : string;
+  phone : string;
+
 }
 //#endregion
 
@@ -38,17 +47,18 @@ export default class UserData {
     this.db = new DynamoData();
   }
 
-  getUserInfo(args : getUserInfoArgs) {
+  async getUserInfo(args : GetUserInfoArgs) : Promise<UserResponse> {
     const params : DocumentClient.GetItemInput = {
       Key: {
         "handle": args.handle,
       },
       TableName: USER_TABLE
     };
-    return this.db.get(params);
+    const result = await this.db.get(params);
+    return result.Item as UserResponse;
   }
 
-  createUser(args : createUserArgs) {
+  async createUser(args : CreateUserArgs) : Promise<UserResponse>  {
     const params : DocumentClient.PutItemInput = {
       TableName: USER_TABLE,
       Item: {
@@ -56,10 +66,11 @@ export default class UserData {
         name: args.name,
       },
     };
-    return this.db.createItem(params);
+    const result = this.db.createItem(params);
+    return await this.getUserInfo({ handle : args.handle});
   }
 
-  updateUser(args : updateUserArgs) {
+  async updateUser(args : UpdateUserArgs) : Promise<UserResponse>  {
     const params : DocumentClient.UpdateItemInput = {
       TableName: USER_TABLE,
       Key: {
@@ -74,10 +85,11 @@ export default class UserData {
       ReturnValues: 'ALL_NEW',
     };
 
-    return this.db.updateItem(params, args);
+    const result = this.db.updateItem(params, args);
+    return await this.getUserInfo({ handle : args.handle});
   }
   
-  linkSite(args : linkSiteArgs) {
+  async linkSite(args : LinkSiteArgs) : Promise<UserResponse> {
     const params : DocumentClient.UpdateItemInput = {
       TableName: USER_TABLE,
       Key: {
@@ -94,10 +106,11 @@ export default class UserData {
       },
       ConditionExpression : "attribute_not_exists(#site.#siteid)"
     };
-    return this.db.updateItem(params, args);
+    const result = await this.db.updateItem(params, args);
+    return await this.getUserInfo({handle : args.handle});
   }
 
-  removeSite(args : removeSiteArgs) {
+  async removeSite(args : RemoveSiteArgs) : Promise<UserResponse> {
     const params : DocumentClient.UpdateItemInput = {
       TableName: USER_TABLE,
       Key: {
@@ -110,7 +123,8 @@ export default class UserData {
         '#siteid' : args.site_id
       },
     };
-    return this.db.updateItem(params, args);
+    const result = await this.db.updateItem(params, args);
+    return await this.getUserInfo({ handle : args.handle});
   }
 
 }

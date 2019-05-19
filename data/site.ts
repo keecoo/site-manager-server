@@ -5,16 +5,26 @@ import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 const uuidv4 = require('uuid/v4');
 const SITE_TABLE = 'Sites';
 
-interface createSiteArgs {
+//#region interfaces
+export interface CreateSiteArgs {
   site_name : string;
   description : string;
+  handle : string;
 }
 
-interface updateSiteArgs {
+export interface UpdateSiteArgs {
   site_id : string;
   site_name : string;
   description : string;
 }
+
+export interface SiteResponse {
+  site_id : string;
+  site_name : string;
+  description : string;
+  image_url : string;
+}
+//#endregion interfaces
 
 export default class SiteData {
   db: DynamoData;
@@ -22,7 +32,7 @@ export default class SiteData {
     this.db = new DynamoData();
   }
 
-  getSitesData(siteIds) {
+  async getSitesData(siteIds) : Promise<Array<SiteResponse>> {
     console.log(siteIds);
     let keys = [];
     for (var siteid in siteIds) {
@@ -35,10 +45,12 @@ export default class SiteData {
         }
       }
     };
-    return this.db.getBatch(params);
+    const result = await this.db.getBatch(params);
+    return result.Responses.Sites as Array<SiteResponse>;
   }
 
-  createSite(args : createSiteArgs) {
+  async createSite(args : CreateSiteArgs) : Promise<SiteResponse> {
+    const siteId = uuidv4();
     const params : DocumentClient.PutItemInput = {
       TableName: SITE_TABLE,
       Item: {
@@ -54,10 +66,11 @@ export default class SiteData {
         image_url: "http://www.google.com"
       },
     };
-    return this.db.createItem(params);
+    const result = this.db.createItem(params);
+    return await this.getSiteData(siteId);
   }
 
-  updateSite(args : updateSiteArgs) {
+  async updateSite(args : UpdateSiteArgs) : Promise<SiteResponse> {
     const params : DocumentClient.UpdateItemInput = {
       TableName: SITE_TABLE,
       Key: {
@@ -71,16 +84,18 @@ export default class SiteData {
       ReturnValues: 'ALL_NEW',
     };
 
-    return this.db.updateItem(params, args);
+    const result = await this.db.updateItem(params, args);
+    return await this.getSiteData(args.site_id);
   }
 
-  getSiteData(siteId : string) {
+  async getSiteData(siteId : string) : Promise<SiteResponse> {
     const params : DocumentClient.GetItemInput = {
       Key: {
         "site_id": siteId,
       },
       TableName: SITE_TABLE
     };
-    return this.db.get(params);
+    const result = await this.db.get(params);
+    return result.Item as SiteResponse;
   }
 }
