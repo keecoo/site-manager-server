@@ -1,7 +1,7 @@
 import AnimalData from './data/animal';
 import { UpdateAnimalArgs, CreateAnimalArgs } from './data/animal';
 import AnimalSiteData from './data/animal_site';
-import SiteData  from './data/site';
+import SiteData, { SiteResponse }  from './data/site';
 import { CreateSiteArgs, UpdateSiteArgs }  from './data/site';
 import UserData, { GetUserInfoArgs } from './data/user';
 import { CreateUserArgs, UpdateUserArgs, RemoveSiteArgs, LinkSiteArgs } from './data/user';
@@ -65,8 +65,7 @@ export default class HandlerService {
   }
   
   async asyncGetUserSite(handle, siteList) {
-    const sites : any = await this.siteData.getSitesData(siteList);
-    return sites.Responses.Sites;
+    return await this.siteData.getSitesData(siteList);
   }
   
   async asyncCreateUser(args : CreateUserArgs) {
