@@ -43,6 +43,7 @@ export default class HandlerService {
   }
   
   async asyncCreateSite(args : CreateSiteArgs) {
+    console.log(args);
     const site = await this.siteData.createSite(args);
     await this.userData.linkSite({
       handle: args.handle,

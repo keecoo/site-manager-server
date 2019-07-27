@@ -54,7 +54,7 @@ export default class SiteData {
     const params : DocumentClient.PutItemInput = {
       TableName: SITE_TABLE,
       Item: {
-        site_id: uuidv4(),
+        site_id: siteId,
         site_name: args.site_name,
         description: args.description,
         location: {

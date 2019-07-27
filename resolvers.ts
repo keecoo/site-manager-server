@@ -97,7 +97,8 @@ const data = {
 // eslint-disable-next-line import/prefer-default-export
 export const resolvers = {
   Query: {
-    getUserInfo: (_, args) => data.getUserInfo(args),
+    //getUserInfo: (_, args) => data.getUserInfo(args),
+    getUserInfo: (_, args, ctx) => data.getUserInfo( { handle: ctx.user.email}),
     getAnimal: (_, args) => data.getAnimal(args),
     getSiteInfo: (_, args) => data.getSiteInfo(args),
   },
