@@ -46,7 +46,7 @@ export default class HandlerService {
     console.log(args);
     const site = await this.siteData.createSite(args);
     await this.userData.linkSite({
-      handle: args.handle,
+      user_id: args.user_id,
       site_id: site.site_id
     });
     return site;
@@ -59,7 +59,7 @@ export default class HandlerService {
   
   async asyncRemoveSiteLink(args : RemoveSiteArgs) {
     await this.userData.removeSite({
-      handle: args.handle,
+      user_id: args.user_id,
       site_id: args.site_id
     });
     return await this.userData.getUserInfo(args);

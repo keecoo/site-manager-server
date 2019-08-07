@@ -98,7 +98,7 @@ const data = {
 export const resolvers = {
   Query: {
     //getUserInfo: (_, args) => data.getUserInfo(args),
-    getUserInfo: (_, args, ctx) => data.getUserInfo( { handle: ctx.user.email}),
+    getUserInfo: (_, args, ctx) => data.getUserInfo( { user_id: args.user_id}),
     getAnimal: (_, args) => data.getAnimal(args),
     getSiteInfo: (_, args) => data.getSiteInfo(args),
   },

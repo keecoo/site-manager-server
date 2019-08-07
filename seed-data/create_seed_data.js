@@ -11,13 +11,16 @@ const siteData = [];
 const animalData = [];
 const animalSiteData = [];
 const handleNames = [];
+const userIds = [];
 
 faker.seed(1000);
 
 handleNames.push('kgcoombs@gmail.com');
+userIds.push('auth0|5b5b901d750f272b79318cb8')
 for (let i = 0; i < numUsers; i++) {
   const handle = faker.internet.userName();
   handleNames.push(handle);
+  userIds.push(faker.random.uuid())
 }
 
 for (let i = 0; i < numSites; i++) {
@@ -67,11 +70,13 @@ for (let i = 0; i < handleNames.length; i++) {
   const description = faker.name.jobTitle();
 
   const userInfo = {
+    user_id: userIds[i],
     handle: handleNames[i],
     name: name,
     location: location,
     description: description,
-    site: {}
+    site: {},
+    created_at: faker.date.between('2016-01-01', '2017-01-27'),
   };
   userInfo.site = {};
   userInfo.site[siteData[0].site_id] = { site_id : siteData[0].site_id}

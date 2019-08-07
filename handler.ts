@@ -4,7 +4,6 @@ const { makeExecutableSchema } = require('graphql-tools')
 import { rule, shield, and, or, not } from 'graphql-shield'
 import { schema } from './schema';
 import { resolvers } from './resolvers';
-import { resolve } from 'dns';
 
 var jwt = require('jsonwebtoken');
 var jwksClient = require('jwks-rsa');
@@ -21,40 +20,58 @@ const getKey = (header) => new Promise((resolve, reject) => {
   });
 });
 
-async function getUserFromRequest(req) {
-  const auth = req.headers['Authorization'];
-  var data = jwt.decode(auth, { complete: true});
-  try {
-    var key = await getKey(data.header);
-  } catch(e) {
-    console.error('failed to get key')
-  }
-  var user = jwt.verify(auth, key, { algorithms: ['RS256'] });
-  return user;
-}
+// async function getUserFromRequest(req) {
+//   const auth = req.headers['Authorization'];
+//   console.log(auth);
+//   var data = jwt.decode(auth, { complete: true});
+//   try {
+//     console.log('getting key')
+//     var key = await getKey(data.header);
+//   } catch(e) {
+//     console.error('failed to get key')
+//   }
+//   var user = jwt.verify(auth, key, { algorithms: ['RS256'] });
+//   console.log(user)
+//   return user;
+// }
 
 async function getUser(ctx)  : Promise<any>{
   console.log('getting user');
 
   const auth = ctx.headers['Authorization'];
+  //console.log(auth);
   var data = jwt.decode(auth, { complete: true});
+  var key, user;
   try {
-    var key = await getKey(data.header);
+    console.log('getting key')
+    key = await getKey(data.header);
   } catch(e) {
-    console.error('failed to get key')
+    console.error('failed to get key', e)
   }
-  var user = jwt.verify(auth, key, { algorithms: ['RS256'] });
-  console.log("got user");
+  try {
+    user = jwt.verify(auth, key, { algorithms: ['RS256'] });
+  } catch(e) {
+    if (e && e.name === 'TokenExpiredError') {
+      console.log(e)
+    } else {
+      console.error(e)
+    }
+    return null;
+  }
+  
+  ctx.user = user;
   return user;
 
 }
 
 const isAuthenticated = rule()(
   async (parent, args, ctx, info) => {
+    //return true;
     var user = await getUser(ctx);
+    console.log('got user')
     console.log(user);
     ctx.user = user;
-    return true;
+    return user !== null;
   }
 )
 
@@ -88,7 +105,7 @@ const server = new ApolloServer({
     event,
     context: req => ({
       ...req,
-      user: getUserFromRequest(req),
+      //user: getUserFromRequest(req),
     })
   }),
   playground: {

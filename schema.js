@@ -30,6 +30,7 @@ type Mutation {
       ): User
 
     updateUser(
+        user_id: String!
         first_name: String!
         last_name: String!
         handle: String!
@@ -39,7 +40,7 @@ type Mutation {
     createSiteAndLink(
         site_name: String!
         description: String!
-        handle: String!
+        user_id: String!
     ): Site
 
     updateSite(
@@ -51,13 +52,13 @@ type Mutation {
 
     removeSiteLink(
         site_id: String!
-        handle: String!
+        user_id: String!
     ) : User!
 }
 
 type Query {
     meInfo(consumer_key: String, consumer_secret: String): User!
-    getUserInfo(handle: String!, consumer_key: String, consumer_secret: String): User!
+    getUserInfo(user_id: String!, consumer_key: String, consumer_secret: String): User!
 
     getAnimal(animal_id: String!): Animal!
     getSiteInfo(site_id: String!): Site!

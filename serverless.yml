@@ -117,11 +117,11 @@ resources:
       Properties:
         KeySchema:
           -
-            AttributeName: handle
+            AttributeName: user_id
             KeyType: HASH
         AttributeDefinitions:
           -
-            AttributeName: handle
+            AttributeName: user_id
             AttributeType: S
         ProvisionedThroughput:
           ReadCapacityUnits: 10

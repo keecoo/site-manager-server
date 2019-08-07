@@ -9,7 +9,7 @@ const SITE_TABLE = 'Sites';
 export interface CreateSiteArgs {
   site_name : string;
   description : string;
-  handle : string;
+  user_id : string;
 }
 
 export interface UpdateSiteArgs {
