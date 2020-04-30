@@ -1,0 +1,16 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.14.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - aws-xray-sdk > aws-xray-sdk-core > lodash:
+        patched: '2020-04-30T22:03:18.606Z'
+    - graphql-shield > yup > lodash:
+        patched: '2020-04-30T22:03:18.606Z'
+    - jwks-rsa > lru-memoizer > lodash:
+        patched: '2020-04-30T22:03:18.606Z'
+    - serverless-dynamodb-client > aws-sdk > xmlbuilder > lodash:
+        patched: '2020-04-30T22:03:18.606Z'
+    - serverless-dynamodb-client > aws-sdk > xml2js > xmlbuilder > lodash:
+        patched: '2020-04-30T22:03:18.606Z'
