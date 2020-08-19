@@ -20,7 +20,7 @@
         "babel-polyfill": "^6.26.0",
         "graphql": "^14.1.1",
         "graphql-middleware": "^3.0.0",
-        "graphql-shield": "^5.1.0",
+        "graphql-shield": "^7.0.5",
         "graphql-playground-middleware-lambda": "^1.7.13",
         "graphql-tools": "^4.0.4",
         "jsonwebtoken": "^8.5.1",
