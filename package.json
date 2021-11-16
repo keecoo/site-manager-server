@@ -33,7 +33,7 @@
     "devDependencies": {
         "@babel/core": "^7.4.3",
         "@babel/preset-env": "^7.4.3",
-        "aws-sdk": "^2.192.0",
+        "aws-sdk": "^2.814.0",
         "babel-loader": "^8.0.5",
         "babel-core": "^7.0.0-bridge.0",
         "body-parser": "^1.15.2",
