@@ -16,7 +16,7 @@
     "dependencies": {
         "apollo-server-lambda": "2.4.8",
         "apollo-tracing": "^0.5.2",
-        "aws-xray-sdk": "^2.1.0",
+        "aws-xray-sdk": "^3.0.0",
         "babel-polyfill": "^6.26.0",
         "graphql": "^14.1.1",
         "graphql-middleware": "^3.0.0",
