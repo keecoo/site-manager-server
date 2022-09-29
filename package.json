@@ -1,61 +1,65 @@
 {
-    "name": "site-manager-server",
-    "version": "0.0.0",
-    "private": true,
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:serverless/serverless-graphql.git"
-    },
-    "scripts": {
-        "test": "jest",
-        "dynamodb-generate-seed-data": "cd seed-data && node create_seed_data.js",
-        "dynamodb-insert-seed-data-prod": "cd seed-data && node insert_seed_data_prod.js",
-        "start": "yarn dynamodb-generate-seed-data && serverless dynamodb install && env-cmd ./config/security.env.local serverless offline start",
-        "deploy-prod": "yarn dynamodb-generate-seed-data && env-cmd ./config/security.env.prod serverless --stage=production deploy && yarn dynamodb-insert-seed-data-prod"
-    },
-    "dependencies": {
-        "apollo-server-lambda": "2.4.8",
-        "apollo-tracing": "^0.5.2",
-        "aws-xray-sdk": "^2.1.0",
-        "babel-polyfill": "^6.26.0",
-        "graphql": "^14.1.1",
-        "graphql-middleware": "^3.0.0",
-        "graphql-shield": "^5.1.0",
-        "graphql-playground-middleware-lambda": "^1.7.13",
-        "graphql-tools": "^4.0.4",
-        "jsonwebtoken": "^8.5.1",
-        "jwks-rsa" : "^1.6.0",
-        "merge-graphql-schemas": "^1.5.8",
-        "node-uuid": "1.4.8",
-        "serverless-dynamodb-client": "^0.0.2",
-        "uuid": "^3.3.2"
-    },
-    "devDependencies": {
-        "@babel/core": "^7.4.3",
-        "@babel/preset-env": "^7.4.3",
-        "aws-sdk": "^2.192.0",
-        "babel-loader": "^8.0.5",
-        "babel-core": "^7.0.0-bridge.0",
-        "body-parser": "^1.15.2",
-        "cors": "2.8.4",
-        "env-cmd": "^5.0.0",
-        "faker": "^4.1.0",
-        "imports-loader": "^0.7.1",
-        "jest": "^23.4.2",
-        "jsonfile": "^4.0.0",
-        "node.extend": ">=1.1.7",
-        "serverless-dynamodb-local": "^0.2.30",
-        "serverless-offline": "^4.9.2",
-        "serverless-webpack": "^5.2.0",
-        "tar": ">=4.4.2",
-        "ts-loader": "^4.3.1",
-        "typescript": "^2.5.3",
-        "webpack": "^4.9.26",
-        "webpack-node-externals": "^1.7.2"
-    },
-    "resolutions": {
-        "serverless-dynamodb-local/dynamodb-localhost": "0.0.7",
-        "babel-core": "^7.0.0-bridge.0",
-        "node.extend": ">=1.1.7"
-    }
+  "name": "site-manager-server",
+  "version": "0.0.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:serverless/serverless-graphql.git"
+  },
+  "scripts": {
+    "test": "jest",
+    "dynamodb-generate-seed-data": "cd seed-data && node create_seed_data.js",
+    "dynamodb-insert-seed-data-prod": "cd seed-data && node insert_seed_data_prod.js",
+    "start": "yarn dynamodb-generate-seed-data && serverless dynamodb install && env-cmd ./config/security.env.local serverless offline start",
+    "deploy-prod": "yarn dynamodb-generate-seed-data && env-cmd ./config/security.env.prod serverless --stage=production deploy && yarn dynamodb-insert-seed-data-prod",
+    "prepublish": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
+  },
+  "dependencies": {
+    "apollo-server-lambda": "3.0.0",
+    "apollo-tracing": "^0.5.2",
+    "aws-xray-sdk": "^2.1.0",
+    "babel-polyfill": "^6.26.0",
+    "graphql": "^14.1.1",
+    "graphql-middleware": "^3.0.0",
+    "graphql-shield": "^7.4.1",
+    "graphql-playground-middleware-lambda": "^1.7.15",
+    "graphql-tools": "^4.0.4",
+    "jsonwebtoken": "^8.5.1",
+    "jwks-rsa": "^1.6.0",
+    "merge-graphql-schemas": "^1.5.8",
+    "node-uuid": "1.4.8",
+    "serverless-dynamodb-client": "^0.0.2",
+    "uuid": "^3.3.2",
+    "@snyk/protect": "latest"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "aws-sdk": "^2.192.0",
+    "babel-loader": "^8.0.5",
+    "babel-core": "^7.0.0-bridge.0",
+    "body-parser": "^1.15.2",
+    "cors": "2.8.4",
+    "env-cmd": "^5.0.0",
+    "faker": "^4.1.0",
+    "imports-loader": "^0.7.1",
+    "jest": "^23.4.2",
+    "jsonfile": "^4.0.0",
+    "node.extend": ">=1.1.7",
+    "serverless-dynamodb-local": "^0.2.30",
+    "serverless-offline": "^4.9.2",
+    "serverless-webpack": "^5.2.0",
+    "tar": ">=4.4.2",
+    "ts-loader": "^4.3.1",
+    "typescript": "^2.5.3",
+    "webpack": "^4.9.26",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "resolutions": {
+    "serverless-dynamodb-local/dynamodb-localhost": "0.0.7",
+    "babel-core": "^7.0.0-bridge.0",
+    "node.extend": ">=1.1.7"
+  },
+  "snyk": true
 }
